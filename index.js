@@ -6,6 +6,14 @@ const usuario = "rodrigoguerra";
 const senha = "Qwert!321";
 const mail = "test@foxway.com.br";
 
+//Todo implementar Interface
+//Todo Implementar Lambda
+//Carregar Amplify Config de Acordo
+//Enviar dados de Login para o Cognito Auth
+//Salvar Tokens de Autenticacacao
+//Usar Tokens para acessar o API Gateway
+//Visualizar dados da API Gateway
+
 async function signUp() {
   try {
     const { user } = await Auth.signUp({
