@@ -1,6 +1,5 @@
 import { Amplify, Auth } from "aws-amplify";
 import awsconfig from "./amplify-config";
-Amplify.configure(awsconfig);
 
 const usuario = "rodrigoguerra";
 const senha = "Qwert!321";
@@ -13,6 +12,51 @@ const mail = "test@foxway.com.br";
 //Salvar Tokens de Autenticacacao
 //Usar Tokens para acessar o API Gateway
 //Visualizar dados da API Gateway
+
+(async () => {
+  const form = document.querySelector(".form");
+  const email = document.querySelector(".email");
+  const password = document.querySelector(".password");
+  let formStatus = 0;
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    try {
+      tenantVerifier(email.value);
+      //const res = await signIn(cognitoUser, email.value, password.value);
+    } catch (e) {
+      console.log("Login fail. Error: ", e);
+    }
+  });
+})();
+
+async function tenantVerifier(email) {
+  console.log("Inicia Verificacao do Tenant");
+  lambdaCognitoTenantUrl =
+    "https://0ywa8nsqe7.execute-api.us-east-1.amazonaws.com/cognitoTenant?email=";
+
+  let finalURL = lambdaCognitoTenantUrl + email;
+
+  async function fetchAsyncGetCognito(url) {
+    let response = await fetch(url);
+    let data = await response.json();
+    console.log(data);
+    let newAmplifyConfig = awsconfig;
+
+    newAmplifyConfig.Auth.identityPoolId = data.Item.identityPoolId;
+    newAmplifyConfig.Auth.region = data.Item.region;
+    newAmplifyConfig.Auth.userPoolId = data.Item.userPoolId;
+    newAmplifyConfig.Auth.userPoolWebClientId = data.Item.userPoolWebClientId;
+    console.log("Retorna Amplify Config Atualizado");
+    console.log(newAmplifyConfig);
+    Amplify.configure(newAmplifyConfig);
+    return newAmplifyConfig;
+  }
+
+  let cognitoTenant = await fetchAsyncGetCognito(finalURL);
+
+  signIn();
+}
 
 async function signUp() {
   try {
@@ -31,9 +75,9 @@ async function signUp() {
     console.log("error signing up:", error);
   }
 }
-cognitoUser = signIn();
+// cognitoUser = signIn();
 
-cognitoUser.then();
+// cognitoUser.then();
 
 async function signIn() {
   try {
