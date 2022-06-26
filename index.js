@@ -1,13 +1,10 @@
-import { Amplify, Auth } from "aws-amplify";
+import { Amplify, Auth, UserPool } from "aws-amplify";
 import awsconfig from "./amplify-config";
 
 const usuario = "rodrigoguerra";
 const senha = "Qwert!321";
 const mail = "test@foxway.com.br";
 
-//Todo implementar Interface
-//Todo Implementar Lambda
-//Carregar Amplify Config de Acordo
 //Enviar dados de Login para o Cognito Auth
 //Salvar Tokens de Autenticacacao
 //Usar Tokens para acessar o API Gateway
@@ -55,7 +52,7 @@ async function tenantVerifier(email) {
 
   let cognitoTenant = await fetchAsyncGetCognito(finalURL);
 
-  signIn();
+  signIn(email);
 }
 
 async function signUp() {
@@ -79,9 +76,11 @@ async function signUp() {
 
 // cognitoUser.then();
 
-async function signIn() {
+async function signIn(email) {
   try {
-    const user = await Auth.signIn("rodrigoguerra", "Qwert!321");
+    console.log(email.replace(/[@.]/g, "|"));
+    const user = await Auth.signIn(email.replace(/[@.]/g, "|"), "Qwert!23");
+    // const user = await Auth.signIn("rodrigoguerra", "Qwert!321");
     console.log(user.signInUserSession.accessToken);
     console.log(user.signInUserSession.idToken);
     console.log(user.signInUserSession.refreshToken);
