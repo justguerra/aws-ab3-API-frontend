@@ -88,7 +88,39 @@ async function signIn(email) {
     console.log("logou com o usuário:" + user.attributes.email);
     console.log("logou com o usuário:" + user.pool.userPoolId);
     console.log(user);
+    user.refreshToken;
+    let user2 = Object.getPrototypeOf(user);
+
+    let clientID = user.pool.userPoolId;
+    let dominio = email.split("@")[1].replace(/[@.]/g, "|");
+    let JWTlocal =
+      localStorage[
+        "CognitoIdentityServiceProvider." +
+          clientID +
+          "." +
+          dominio +
+          ".accessToken"
+      ];
+    apiAccess(user.signInUserSession.accessToken.jwtToken);
   } catch (error) {
     console.log("error signing in", error);
+  }
+}
+
+async function apiAccess(JWT) {
+  const urlAPI =
+    "https://y5xre89ndl.execute-api.us-east-1.amazonaws.com/prod/users";
+  try {
+    let response = await fetch(urlAPI, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: JWT,
+      },
+    });
+
+    let data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.log("error acessando backend in", error);
   }
 }
