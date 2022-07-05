@@ -1,0 +1,69 @@
+@import "../node_modules/bootstrap/scss/bootstrap";
+// Required
+@import "../node_modules/bootstrap/scss/functions";
+
+// Default variable overrides
+// $body-bg: #000;
+// $body-color: #111;
+$background: #fff;
+$color: #000;
+
+// Required
+@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/mixins";
+
+// Optional Bootstrap components here
+@import "../node_modules/bootstrap/scss/root";
+@import "../node_modules/bootstrap/scss/reboot";
+@import "../node_modules/bootstrap/scss/type";
+// etc
+.form-signin {
+  width: 100%;
+  max-width: 420px;
+  padding: 15px;
+  margin: auto;
+}
+.form-label-group {
+  position: relative;
+  margin-bottom: 1rem;
+}
+.login-status-form li {
+  padding: 10px;
+  width: 100%;
+  // text-decoration: underline;
+  text-align: center;
+  display: block;
+  // @include list-group-item-variant("success", $background, $color);
+}
+
+.produtos > div {
+  background: #cff4fc;
+  border: 4px #a8d5de solid;
+  border-radius: 25px;
+  padding: 13px;
+  margin: 10px;
+}
+
+.catImage,
+.dogImage {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.catImage img,
+.dogImage img {
+  flex: 0 32%;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin-bottom: 2%; /* (100-32*3)/2 */
+}
+
+.sem-acesso {
+  width: 100px;
+  width: 100px;
+  width: 100px;
+  background-color: #fff3cd !important;
+  border: 4px #eaba1c solid;
+}
